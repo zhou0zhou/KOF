@@ -1,0 +1,141 @@
+@startuml all
+
+class AcGameObject {
+  - timedelta: number
+  - has_call_start: boolean
+  - winnerInfo: any
+  + constructor()
+  + start(): void
+  + update(): void
+  + destroy(): void
+  + setWinnerInfo(info: any): void
+}
+
+class Controller {
+  - $canvas: any
+  - pressed_keys: Set<string>
+  + constructor($canvas: any)
+  + start(): void
+}
+
+class GameMap {
+  - root: any
+  - $canvas: any
+  - ctx: any
+  - controller: Controller
+  - time_left: number
+  - $timer: any
+  + constructor(root: any)
+  + start(): void
+  + update(): void
+  + render(): void
+}
+
+class Player {
+  - root: any
+  - id: number
+  - x: number
+  - y: number
+  - width: number
+  - height: number
+  - color: string
+  - direction: number
+  - vx: number
+  - vy: number
+  - speedx: number
+  - speedy: number
+  - gravity: number
+  - status: number
+  - ctx: any
+  - pressed_keys: Set<string>
+  - animations: Map<any, any>
+  - frame_current_cnt: number
+  - attackType: number
+  - hp: number
+  - $hp: any
+  + constructor(root: any, info: any)
+  + start(): void
+  + update_move(): void
+  + update_control(): void
+  + update_direction(): void
+  + is_collision(r1: any, r2: any): boolean
+  + is_attack(damage: number): void
+  + update_attack(): void
+  + update(): void
+  + render(): void
+}
+
+class Kyo {
+  - win: boolean
+  + constructor(root: any, info: any)
+  + init_animations(): void
+}
+
+class Kyo1 {
+  - win: boolean
+  + constructor(root: any, info: any)
+  + init_animations(): void
+}
+
+class Enter {
+  + constructor()
+  + init(): void
+  + createDOM(): void
+  + addEventListeners(): void
+}
+
+class KOF {
+  - $kof: any
+  - game_map: GameMap
+  - players: Array<any>
+  - $gameOverScreen: any
+  + constructor(id: string)
+  + gameOver(): void
+  + showGameOverScreen(): void
+}
+
+class GIF {
+  +onload: Function
+  +onerror: Function
+  +onprogress: Function
+  +onloadall: Function
+  +paused: Boolean
+  +playing: Boolean
+  +waitTillDone: Boolean
+  +loading: Boolean
+  +firstFrameOnly: Boolean
+  +width: Number
+  +height: Number
+  +frames: Array
+  +comment: String
+  +length: Number
+  +currentFrame: Number
+  +frameCount: Number
+  +playSpeed: Number
+  +lastFrame: Object
+  +image: Object
+  +playOnLoad: Boolean
+
+  +load(filename: String): void
+  +cancel(callback: Function): Boolean
+  +play(): void
+  +pause(): void
+  +seek(time: Number): void
+  +seekFrame(frame: Number): void
+  +togglePlay(): void
+}
+
+AcGameObject <.. Controller 
+GameMap --|> AcGameObject
+Player --|> AcGameObject
+Kyo --|> Player
+kyo ..>GIF
+Kyo1 --|> Player
+kyo1 ..>GIF
+Enter --> AcGameObject
+KOF *-- GameMap
+KOF *-- Kyo
+KOF *-- Kyo1
+AcGameObject ..>GIF
+
+@enduml
